@@ -106,13 +106,13 @@ s32 my_memcmp(const void *str1, const void *str2, u32 n)
 }
 u8 *my_strchr(const u8 *str, s32 c)
 {
-    u8 *s = str;
+   const u8 *s = str;
     while ((*s) != (u8)c)
     {
         s++;
     }
 
-    return s;
+    return (u8 *)s;
 }
 
 u8 *my_strrchr(const u8 *str, s32 c)
@@ -127,7 +127,7 @@ u8 *my_strrchr(const u8 *str, s32 c)
             break;
         }
     }
-    returned = (str + i);
+    returned = (u8 *)(str + i);
     return returned;
 }
 u8 *my_strstr(const u8 *s1, const u8 *s2)
@@ -139,12 +139,12 @@ u8 *my_strstr(const u8 *s1, const u8 *s2)
     s32 i, j;
     for (i = 0; i < len1; i++)
     {
-        if (s2[0] == s1[i])
-        {
-            for (j = 0; j < len2; j++)
+
+            for (j = 0; j <len2; j++)
             {
                 if (s2[j] == s1[i + j])
                 {
+                    printf("%c\n",s2[j]);
                 }
                 else
                 {
@@ -153,9 +153,11 @@ u8 *my_strstr(const u8 *s1, const u8 *s2)
             }
             if (j == len2)
             {
-                returned = s1 + j - 1;
+             printf("%s\n",s1+j);
+                returned = (u8 *)(s1 + i);
+                break;
             }
-        }
+        
     }
     return returned;
 }
@@ -164,8 +166,8 @@ u64 my_strcspn(const u8 *str1, const u8 *str2)
 {
     u64 len1 = my_strlength(str1);
     u64 len2 = my_strlength(str2);
-    u8 *s1 = str1;
-    u8 *s2 = str2;
+   const u8 *s1 = str1;
+   const u8 *s2 = str2;
     u64 i, j, counter = 0, flag = 0;
     for (i = 0; i <= len1; i++)
     {
@@ -199,8 +201,8 @@ u64 my_strspn(const u8 *str1, const u8 *str2)
 {
     u64 len1 = my_strlength(str1);
     u64 len2 = my_strlength(str2);
-    u8 *s1 = str1;
-    u8 *s2 = str2;
+   const u8 *s1 = str1;
+   const u8 *s2 = str2;
     u64 i, j, counter = 0, flag = 0;
     for (i = 0; i <= len1; i++)
     {
@@ -225,7 +227,7 @@ u64 my_strspn(const u8 *str1, const u8 *str2)
 }
 u8 *my_strpbrk(const u8 *str1, const u8 *str2)
 {
-    u8 *returned = str1;
+   const u8 *returned = str1;
     u32 len1 = my_strlength(str1);
     u32 len2 = my_strlength(str2);
     s32 i = 0, j = 0, flag = 0;
@@ -252,5 +254,5 @@ u8 *my_strpbrk(const u8 *str1, const u8 *str2)
     {
         return 0;
     }
-    return returned + flag;
+    return (u8 *)(returned + flag);
 }
